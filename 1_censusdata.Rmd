@@ -1,0 +1,110 @@
+---
+title: "Census data"
+author: "Clare Staib-Kaufman"
+date: "May 2026"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading packages and installing as needed
+safe_library <- function(package_name) {
+  if (!require(package_name, character.only = TRUE)) {
+    install.packages(package_name)
+    library(package_name, character.only = TRUE)
+  }
+}
+safe_library("tidyverse")
+safe_library("tidycensus")
+census_api_key("YOUR-CENSUS-KEY")
+safe_library("dplyr")
+safe_library("here")
+here::i_am("1_censusdata.Rmd")
+safe_library("sf")
+```
+
+## Pulling & saving data from the Census API
+
+```{r}
+# listing variables of interest for this study
+variables <- c(
+  # income and home values 
+  MedianIncome = "B06011_001E",
+  MedianHomeValue = "B25109_001E",
+  
+  # age and population size
+  MedianAge = "B01002_001E",
+  Population_sum = "B02001_001E",
+  
+  # poverty line
+  Above150pPL = "B08122_004E",
+  PL_total = "B08122_001E",
+  
+  # household income
+  HHIncome_agg = "B19025A_001E", 
+  Households_sum = "B11001_001E",
+  
+  # bachelor's degrees
+  Bach_sum = "B16010_041E",
+  Adults_sum = "B16010_001E", 
+  
+  # unemployment
+  Unemployed_sum = "B23025_005E",
+  LaborForce_sum = "B23025_003E",
+  
+  # workers in manufacturing
+  Manuf_sum = "B08126_004E",
+  Workers_total = "B08126_001E",
+  
+  # race
+  Asian_sum = "B02001_005E",
+  Black_sum = "B02001_003E",
+  Hispanic_sum = "B03001_003E",
+  White_sum = "B02001_002E"
+  )
+
+# pulling data from census api for all states at the tract level
+cens <- get_acs(
+  geography = "tract",
+  state = state.abb,
+  variables = variables, 
+  year = 2021,
+  survey = "acs5",
+  output = "wide", 
+  geometry = TRUE)
+
+# cleaning pulled data to create percentages and select only the relevant variables
+cens_cl <- cens %>%
+  mutate(
+    Bach_pct = (Bach_sum / Adults_sum) * 100,
+    HHIncome_mean = HHIncome_agg / Households_sum,
+    Unemployed_pct = (Unemployed_sum / LaborForce_sum) * 100,
+    Below150pPL = (1 - (Above150pPL / PL_total)) * 100,
+    Manuf_pct = (Manuf_sum / Workers_total) * 100,
+    Asian_pct = (Asian_sum / Population_sum) * 100,
+    Black_pct = (Black_sum / Population_sum) * 100,
+    Hispanic_pct = (Hispanic_sum / Population_sum) * 100,
+    White_pct = (White_sum / Population_sum) * 100) %>%
+  select(
+    GEOID, 
+    NAME, 
+    Bach_pct, 
+    HHIncome_mean, 
+    Unemployed_pct,
+    Below150pPL, 
+    Manuf_pct, 
+    Asian_pct, 
+    Black_pct, 
+    Hispanic_pct, 
+    White_pct, 
+    MedianAge, 
+    MedianHomeValue, 
+    MedianIncome, 
+    Population_sum
+  )
+
+# saving data as a shapefile
+dir.create(file.path("cens_demg_R"))
+st_write(cens_cl, "cens_demg_R/cens_demg_R.shp", append=FALSE)
+```
