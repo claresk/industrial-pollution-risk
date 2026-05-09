@@ -2,7 +2,7 @@
 title: "Modeling"
 author: "Clare Staib-Kaufman"
 date: "May 2026"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
