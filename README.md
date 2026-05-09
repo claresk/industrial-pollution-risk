@@ -1,4 +1,4 @@
-![headerimage](https://github.com/claresk/miscfileholder/blob/f5253cc18887e805f29032747d047cf28ebda013/header_img.png)
+![headerimage](https://github.com/claresk/miscfileholder/blob/b544e392f2a132aaa19e32c9fc105e118800ad32/header_img.png)
 
 # Industrial Pollution Risk
 
