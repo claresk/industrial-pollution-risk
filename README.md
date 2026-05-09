@@ -1,3 +1,5 @@
+![headerimage](https://github.com/claresk/miscfileholder/blob/f5253cc18887e805f29032747d047cf28ebda013/header_img.png)
+
 # Industrial Pollution Risk
 
 This is a repository of code related to a project investigating patterns in the spatial relationship between public schools, demographic characteristics, and industrial pollution in the United States. 
