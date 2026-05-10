@@ -7,6 +7,8 @@ safe_library <- function(package_name) {
   }
 }
 safe_library("dplyr")
+safe_library("stringr")
+safe_library("tidyr")
 safe_library("here")
 here::i_am("5_modeling.Rmd")
 safe_library("sf")
@@ -188,19 +190,18 @@ SCH_prox <- bind_rows(SCH_5km, SCH_over5km)
 
 ### function to check for normal distribution
 check_norm <- function(variable) {
-  print(variable)
   hist(SCH_prox[[variable]], main=variable)
 }
 
 ### testing normality on variables to check assumptions for ANOVA
 check_norm("Bl150PL") # not normal
-check_norm("Bch_pct") # not normal
+check_norm("Bch_pct") # approximately normal
 check_norm("Wht_pct") # not normal
 check_norm("Blck_pc") # not normal
 check_norm("Unmply_") # not normal
 check_norm("Mnf_pct") # approximately normal
-check_norm("MedinAg") # approximately normal
-check_norm("MdnHmVl") # not normal
+check_norm("MedinAg") # normal
+check_norm("MdnHmVl") # approximately normal
 check_norm("MdnIncm") # normal
 check_norm("Ppltn_s") # approximately normal
 
@@ -213,12 +214,12 @@ bartlett.test(Unmply_ ~ prox, data=SCH_prox) # not equal
 bartlett.test(Mnf_pct ~ prox, data=SCH_prox) # not equal
 bartlett.test(MedinAg ~ prox, data=SCH_prox) # not equal
 bartlett.test(MdnHmVl ~ prox, data=SCH_prox) # not equal
-bartlett.test(MdnIncm ~ prox, data=SCH_prox) # equal
+bartlett.test(MdnIncm ~ prox, data=SCH_prox) # not equal
 bartlett.test(Ppltn_s ~ prox, data=SCH_prox) # not equal
 
 ### checking sample sizes
-SCH_5km      # 58990
-SCH_over5km  # 43188
+nrow(SCH_5km)      # 59955
+nrow(SCH_over5km)  # 42223
 
 ### Since the variances of the variables are generally not equal, I'm going to 
 ### do a t-test, where I can specify differing variances. 
@@ -365,8 +366,8 @@ SCH_prox_S <- SCH_prox %>%
 ### removing rows where there is no spatial data
 SCH_prox_S <- SCH_prox_S[!st_is_empty(SCH_prox_S),]
 
-### creating spatial weights (distance band of 10 km)
-neighbors <- dnearneigh(SCH_prox_S, d1 = 0, d2 = 10)
+### creating spatial weights (distance band of 50 km)
+neighbors <- dnearneigh(SCH_prox_S, d1 = 0, d2 = 50)
 listweights <- nb2listw(neighbors, zero.policy = TRUE)
 
 ### calculating global moran's I (spatial auto-correlation)
@@ -426,10 +427,10 @@ SCH_HOLC <- SCH_HOLC %>%
   filter((!grade %in% c("", "E", "F")))
 
 ### checking for normality
-hist(SCH_HOLC$NEAR_DIST) # not particularly normal
+hist(SCH_HOLC$NEAR_DIST) # not really normal
 
 ### checking for equal variances
-bartlett.test(NEAR_DIST ~ grade, data=SCH_HOLC)
+bartlett.test(NEAR_DIST ~ grade, data=SCH_HOLC) # not equal variances
 
 ### run anova
 anova <- aov(NEAR_DIST ~ grade, data=SCH_HOLC)
@@ -437,7 +438,7 @@ print(summary(anova))
 print(model.tables(anova))
 
 ### calculating effect size
-(1380) / (1380 + 36058)
+(1368) / (1368 + 35695)
 
 ### The data do not satisfy the ANOVA requirements, but the test can be somewhat 
 ### robust to this if the sample sizes between groups are similar. With that 
