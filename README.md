@@ -11,7 +11,7 @@ impacts are especially pronounced among vulnerable populations like children and
 There are five numbered code files written in R and Python that pull, process, and analyze all data used in this project. Run them in numerical order to replicate the analysis. You will need to obtain a [Census API key](https://api.census.gov/data/key_signup.html) and input it into the first file; you will also need to be logged into a licensed [ArcGIS](https://www.esri.com/software/arcgis) account to run the code in Python, since it uses `arcpy`.
 
 ## Data
--  For data on **schools**, I used the 2021-2022 National Center for Education Statistics’ [Public Schools](https://nces.ed.gov/programs/edge/Geographic/SchoolLocations) dataset, which lists the locations of all US public schools.
+-  For data on **schools**, I used the 2021–2022 National Center for Education Statistics’ [Public Schools](https://nces.ed.gov/programs/edge/Geographic/SchoolLocations) dataset, which lists the locations of all US public schools.
 
 -  For data on **industrial pollution sites**, I used the 2022 EPA [Toxics Release Inventory](https://www.epa.gov/toxics-release-inventory-tri-program/what-toxics-release-inventory) (TRI), which lists all industrial sites and their reported emissions. This is the most recent release of the data in this format. This dataset splits emissions (reported in pounds) by chemical; I summed by site to get a total on-site emissions value for each location. The coordinates provided in the TRI dataset are estimated in some cases, so I also pulled in geographic data from the EPA [Facility Registry Service](https://www.epa.gov/frs) (FRS), which is a more robust dataset.
 
