@@ -19,4 +19,4 @@ There are five numbered code files written in R and Python that pull, process, a
 
 -  For data on **community demographics**, I pulled tract-level demographic data from the 2021 [American Community Survey](https://www.census.gov/programs-surveys/acs.html) (ACS) using the Census API via `tidycensus` in R.
 
--  For data on **historical neighborhood grades** from the Home Owners’ Loan Corporation (HOLC), I used maps from [Mapping Inequality](https://dsl.richmond.edu/panorama/redlining/), a project at the University of Richmond.
+-  For data on **historical neighborhood grades** from the Home Owners’ Loan Corporation (HOLC), I used maps from [Mapping Inequality](https://dsl.richmond.edu/panorama/redlining/), a project at the University of Richmond. 
