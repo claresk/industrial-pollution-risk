@@ -1,5 +1,19 @@
-# loading packages and installing as needed
+# Modeling
 
+# This script reads in the census data pulled in part one and joins it with the air pollution data. 
+# It then generates and plots a correlation matrix relating air pollution to census demographic 
+# variables, then creates a spatial model relating that data. It then reads in the school proximity 
+# group data, runs a series of t-tests relating it to census demographic variables, and creates a 
+# log model of the data. Next, it reads in the full school proximity data, creates a correlation 
+# matrix relating it to census demographic variables, and creates another spatial model. Finally, 
+# the script reads in the historical neighborhood grade data and conducts an ANOVA test relating 
+# it to school-to-facility proximity.
+
+
+
+
+
+# loading packages and installing as needed
 safe_library <- function(package_name) {
   if (!require(package_name, character.only = TRUE)) {
     install.packages(package_name)
