@@ -1,4 +1,5 @@
 # Downloading census data
+
 # This script pulls ACS data from the Census API using the tidycensus package, then saves the data.
 
 
