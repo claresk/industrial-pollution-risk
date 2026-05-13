@@ -287,7 +287,7 @@ SCH_prox <- SCH_prox %>%
 
 ### formula for log model
 formula <- as.formula(
-  prox_b ~ MedinAg + MdnIncm + MdnHmVl + Blck_pc + Wht_pct + Bch_pct + Mnf_pct + Unmply_ + Bl150PL + Ppltn_s)
+  prox_b ~ MedinAg + MdnIncm + Blck_pc + Wht_pct + Bch_pct + Mnf_pct + Unmply_ + Bl150PL + Ppltn_s)
 
 ### log model
 log_model <- glm(formula, data=SCH_prox, family=binomial("logit"))
