@@ -24,7 +24,7 @@ safe_library("dplyr")
 safe_library("stringr")
 safe_library("tidyr")
 safe_library("here")
-here::i_am("5_modeling.Rmd")
+here::i_am("5_modeling.R")
 safe_library("sf")
 safe_library("spdep")
 safe_library("spatialreg")
@@ -68,8 +68,7 @@ rsei_demg_num <- st_drop_geometry(rsei_demg) %>%
     MedinAg, 
     MdnHmVl, 
     MdnIncm, 
-    Ppltn_s, 
-    PopDens,
+    Ppltn_s,
     NumFacs, 
     NumReleases, 
     NumChems, 
@@ -89,7 +88,6 @@ rsei_demg_num <- st_drop_geometry(rsei_demg) %>%
     "Median home value" = MdnHmVl,
     "Median income" = MdnIncm,
     "Population size" = Ppltn_s,
-    "Population density" = PopDens, 
     "Number of nearby facilities" = NumFacs,
     "Number of chemical releases" = NumReleases,
     "Number of chemicals" = NumChems,
