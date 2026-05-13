@@ -102,10 +102,6 @@ cens_cl <- cens %>%
     Population_sum
   )
 
-## calculating popluation density
-cens_cl$PopDens <- cens_cl$Population_sum/st_area(st_transform(cens_cl$geometry, crs = 27705))
-
-
 ## saving data as a shapefile
 dir.create(file.path("cens_demg_R"))
 st_write(cens_cl, "cens_demg_R/cens_demg_R.shp", append=FALSE)
