@@ -18,7 +18,7 @@ safe_library("tidycensus")
 census_api_key("YOUR-CENSUS-KEY")
 safe_library("dplyr")
 safe_library("here")
-here::i_am("1_censusdata.Rmd")
+here::i_am("1_censusdata.R")
 safe_library("sf")
 
 
